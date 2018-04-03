@@ -72,16 +72,20 @@ def neural_network_model(x, neural_net):
 
 
 
-def train_neural_network(features, labels, neural_net, hm_epochs=10, save_path="",batch_size=100):
+def train_neural_network(train_x, train_y, test_x, test_y, neural_net, hm_epochs=10, save_path="",batch_size=100):
 	"""
 	Trains a neural network, prints the final accuracy score. Saves
 	the network if save_path parameter is provided
 
 	* Parameters:
 
-	features: feature vectors for training
+	train_x: feature vectors for training
 
-	labels: lable vectors for training 
+	train_y: lable vectors for training 
+
+	test_x: feature vectors for testing
+
+	test_y: lable vectors for testing 
 
 	neural_net: neural network weights and biases in a form od a dictionary
 	(function construct_neural_net is design fot creating such a dictionary)
@@ -95,7 +99,7 @@ def train_neural_network(features, labels, neural_net, hm_epochs=10, save_path="
 	batch_size: size of training batch (default: batch_size=100)
 
 	"""
-	placeholder_x = tf.placeholder('float',[None, len(features[0])], name="input")
+	placeholder_x = tf.placeholder('float',[None, len(train_x[0])], name="input")
 	placeholder_y = tf.placeholder('float')
 
 	prediction = neural_network_model(placeholder_x, neural_net)
@@ -113,12 +117,12 @@ def train_neural_network(features, labels, neural_net, hm_epochs=10, save_path="
 			epoch_loss = 0
 			
 			i = 0
-			while i < len(features):
+			while i < len(train_x):
 				start = i
 				end = start+batch_size
 
-				batch_x = np.array(features[start:end])
-				batch_y = np.array(labels[start:end])
+				batch_x = np.array(train_x[start:end])
+				batch_y = np.array(train_y[start:end])
 
 				_, c = sess.run([optimizer, cost], feed_dict = {placeholder_x: batch_x, placeholder_y: batch_y})
 				epoch_loss += c
@@ -134,7 +138,7 @@ def train_neural_network(features, labels, neural_net, hm_epochs=10, save_path="
 
 		accuracy = tf.reduce_mean(tf.cast(correct, "float"))
 
-		print("Accuracy:", accuracy.eval({placeholder_x:features, placeholder_y:labels}))
+		print("Accuracy:", accuracy.eval({placeholder_x: test_x, placeholder_y: test_y}))
 		if save_path:
 			saver = tf.train.Saver()
 			saver.save(sess=sess, save_path=save_path)
