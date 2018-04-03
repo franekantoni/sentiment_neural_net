@@ -1,5 +1,5 @@
 import neural_net_func as nnf
-import data_prosessing as pd
+import data_processing as dp
 import tensorflow as tf
 import numpy as np 
 
