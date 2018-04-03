@@ -51,16 +51,20 @@ neural_network_model(x, neural_net):
 	neural_net: neural network weights and biases in a form od a dictionary
 	(function construct_neural_net is design fot creating such a dictionary)
 
-train_neural_network(x, y, neural_net, hm_epochs=10, save_path=""):
-	
+train_neural_network(train_x, train_y, test_x, test_y, neural_net, hm_epochs=10, save_path="",batch_size=100):
+
 	Trains a neural network, prints the final accuracy score. Saves
 	the network if save_path parameter is provided
 
 	* Parameters:
 
-	features: feature vectors for training
+	train_x: feature vectors for training
 
-	labels: lable vectors for training 
+	train_y: lable vectors for training 
+
+	test_x: feature vectors for testing
+
+	test_y: lable vectors for testing 
 
 	neural_net: neural network weights and biases in a form od a dictionary
 	(function construct_neural_net is design fot creating such a dictionary)
@@ -73,6 +77,8 @@ train_neural_network(x, y, neural_net, hm_epochs=10, save_path=""):
 
 	batch_size: size of training batch (default: batch_size=100)
 
+
+	
 2. file: data_processing.py
 
 create_lexticon(*files,num_of_lines=0,max_freq=0.005,min_freq=0.00001):
