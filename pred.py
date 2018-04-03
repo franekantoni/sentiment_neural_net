@@ -1,5 +1,5 @@
 import neural_net_func as nnf
-import sentiment
+import data_prosessing as pd
 import tensorflow as tf
 import numpy as np 
 
@@ -20,7 +20,7 @@ def get_pred_on_string(string, lexicon, model='models.meta'):
 	False if the sentence is positive
 	"""
 	with tf.Session() as sess:
-		vector = sentiment.string_vectorisation(string, lexicon)
+		vector = dp.string_vectorisation(string, lexicon)
 		new_saver = tf.train.import_meta_graph(model)
 		new_saver.restore(sess, tf.train.latest_checkpoint('./'))
 		graph = tf.get_default_graph()
@@ -37,5 +37,5 @@ def get_pred_on_string(string, lexicon, model='models.meta'):
 			return False
 
 if __name__ == "__main__":
-	lexicon = sentiment.create_lexticon_of_given_length("pos.txt", "neg.txt")
+	lexicon = dp.create_lexticon_of_given_length("pos.txt", "neg.txt")
 	print(get_pred_on_string(input("Give me a sentence to analize:\n"), lexicon))
